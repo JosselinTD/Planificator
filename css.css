@@ -1,0 +1,23 @@
+.task{
+	height:100px;
+}
+
+.task .edit-task{
+	width:100vw;
+	height:100vh;
+	position:fixed;
+	top:0px;
+	left:0px;
+	background-color:rgba(0,0,0,0.8);
+}
+
+.task .edit-task form{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	-webkit-transform:translate(-50%, -50%);
+	background-color:rgb(225,225,255);
+	border-radius:5px;
+	padding:20px;
+}

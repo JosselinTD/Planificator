@@ -1,0 +1,15 @@
+<task ng-click="task.editting = true">
+	<h1>{{ task.title }}</h1>
+	<p>
+		{{ task.comment }}
+	</p>
+	<div class="edit-task" ng-show="task.editting">
+		<form>
+			<input type="text" ng-model="task.title"/><br/>
+			Du <input type="text" ng-model="task.start" class="datepicker"/>
+			au <input type="text" ng-model="task.end" class="datepicker"/>
+			<textarea ng-model="task.comment"></textarea>
+			Tous les <input type="number" ng-model="task.repeat"/> jours.
+		</form>
+	</div>
+</task>

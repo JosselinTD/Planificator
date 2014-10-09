@@ -1,0 +1,29 @@
+<html ng-app="Planificator">
+	<head>
+		<script src="scripts/jquery.min.js"></script>
+		<script src="scripts/jquery.ui/jquery.ui.min.js"></script>
+		<link rel="stylesheet" href="scripts/jquery.ui/jquery.ui.min.css">
+		<link rel="stylesheet" href="css.css">
+	</head>
+	<body ng-controller='MainCtrl as m'>
+	
+	<div class="task" ng-repeat='task in m.tasks' ng-click="task.editting = true" trigger-datepicker>
+		<h1>{{ task.title }}</h1>
+		<p>
+			{{ task.comment }}
+		</p>
+		<div class="edit-task" ng-show="task.editting">
+			<form>
+				<input type="text" ng-model="task.title"/><br/>
+				Du <input type="text" ng-model="task.start" class="datepicker"/>
+				au <input type="text" ng-model="task.end" class="datepicker"/><br/>
+				<textarea ng-model="task.comment"></textarea><br/>
+				Tous les <input type="number" ng-model="task.repeat"/> jours.<br/>
+			</form>
+		</div>
+	</div>
+	
+	<script src="scripts/angular.min.js"></script>
+	<script src="scripts/app.js"></script>
+	</body>
+</html>

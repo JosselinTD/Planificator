@@ -1,5 +1,19 @@
+body{
+	font-family:Verdana;
+}
+
 .task{
 	height:100px;
+	background-color:rgb(240, 240, 255);
+	display:inline-block;
+	margin:5px;
+	padding:5px;
+}
+
+.task h1{
+	margin:0px;
+	padding:0px;
+	font-size:15pt;
 }
 
 .task .edit-task{

@@ -115,7 +115,7 @@
 	function addOne($title, $comment, $start, $end, $repeat){
 		$sql = 'INSERT INTO planificator_task(title, comment, start, end, srepeat) VALUES ("'.$title.'", "'.$comment.'", "'.$start.'", "'.$end.'", '.$repeat.')';
 		execute($sql);
-		$sql = 'SELECT id FROM planificator_task ORDER BY id LIMIT 1';
+		$sql = 'SELECT id FROM planificator_task ORDER BY id DESC LIMIT 1';
 		$raw = execute($sql);
 		while($id = mysql_fetch_assoc($raw)){
 			return '{"id":'.$id['id'].'}';
@@ -129,7 +129,7 @@
 	}
 	
 	function deleteOne($id){
-		$sql = 'DELETE FROM planificator_task where id='.$id;
+		$sql = 'DELETE FROM planificator_task WHERE id='.$id;
 		execute($sql);
 		return "";
 	}

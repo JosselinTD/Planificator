@@ -122,7 +122,7 @@ angular.module('Planificator', [])
 	};
 	
 	this.editTask = function(task, success, error){
-		$http.post("api/task.php?id="+task.id, task)
+		$http.put("api/task.php?id="+task.id, task)
 			.success(function(data){
 				success(task);
 			})

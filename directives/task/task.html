@@ -1,17 +1,20 @@
 <div class="task">
-	<h1>{{ task.title }}</h1>
-	<menu>
-		<span class="fa fa-edit"  ng-click="task.editting = true"></span>
-		<span class="fa fa-remove" ng-click="ctrl.delete(task)"></span>
-	</menu>
-	<div class="edit-task" ng-show="task.editting">
+	<header>
+		{{ task.id }}
+		<h1>{{ task.title }}</h1>
+		<menu>
+			<span class="fa fa-edit"  ng-click="task.editting = true"></span>
+			<span class="fa fa-remove" ng-click="ctrl.delete(task)"></span>
+		</menu>
+	</header>
+	<section class="edit-task" ng-show="task.editting">
 		<form ng-submit="ctrl.propose(task)">
 			<input type="text" ng-model="task.title"/><br/>
 			Du <input type="text" ng-model="task.start" class="datepicker"/>
 			au <input type="text" ng-model="task.end" class="datepicker"/><br/>
 			<textarea ng-model="task.comment"></textarea><br/>
 			Tous les <input type="number" ng-model="task.repeat"/> jours.<br/>
-			<input type="submit" value="Valider"/>
+			<span class="fa fa-check submit" ng-click="ctrl.propose(task)"></span>
 		</form>
-	</div>
+	</section>
 </div>

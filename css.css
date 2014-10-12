@@ -2,15 +2,14 @@ body{
 	font-family:Verdana;
 }
 
-.task{
-	height:100px;
+.task header{
 	background-color:rgb(240, 240, 255);
-	display:inline-block;
 	margin:5px;
 	padding:5px;
+	display:inline-block;
 }
 
-.task h1{
+.task header h1{
 	margin:0px;
 	padding:0px;
 	font-size:15pt;
@@ -34,4 +33,23 @@ body{
 	background-color:rgb(225,225,255);
 	border-radius:5px;
 	padding:20px;
+}
+
+.task h1{
+	font-size:12pt;
+	font-weight:normal;
+	margin:0px;
+	padding:0px;
+	display:inline-block;
+}
+
+.task menu{
+	display:inline-block;
+	padding:0px;
+	margin:0px;
+	margin-left:10px;
+}
+
+.fa{
+	cursor:pointer;
 }

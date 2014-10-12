@@ -33,6 +33,18 @@ angular.module('Planificator', [])
 			}
 		);
 	};
+	
+	this.delete = function(task){
+		task.sync = true;
+		taskService.deleteTask(
+			task,
+			function(){},
+			function(){
+				task.sync = false;
+				task.error = true;
+			}
+		);
+	};
 })
 .controller('NewTaskCtrl', function(taskService){
 	var ctrl = this;
@@ -63,11 +75,16 @@ angular.module('Planificator', [])
 		);
 	}
 })
-.directive('triggerDatepicker', function(){
-	return function(scope, element, attrs){
-		var date = $(element).find(".datepicker");
-		date.datepicker();
-		date.datepicker("option", "dateFormat", "dd-mm-yy");
+.directive('task', function(){
+	return {
+		restrict: 'EA',
+		replace:'true',
+		templateUrl: '/Planificator/directives/task/task.html',
+		link : function(scope, element, attrs){
+			var date = $(element).find(".datepicker");
+			date.datepicker();
+			date.datepicker("option", "dateFormat", "dd-mm-yy");
+		}
 	};
 })
 .service("taskService", ['$http', function($http){

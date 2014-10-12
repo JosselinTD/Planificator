@@ -129,7 +129,7 @@
 	}
 	
 	function deleteOne($id){
-		$sql = 'DELETE FROM planificator_task where id="'.$id;
+		$sql = 'DELETE FROM planificator_task where id='.$id;
 		execute($sql);
 		return "";
 	}

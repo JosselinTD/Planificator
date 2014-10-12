@@ -9,12 +9,19 @@ var	emptyTask = {
 		sync:false,
 		error:false
 	};
+
+function STT(date){
+	var split = date.split("-");
+	return new Date(split[0], split[1], split[2]);
+}
 	
 angular.module('Planificator', [])
-.controller('RunningTaskCtrl', function(taskService){
+.controller('RunningTaskCtrl', ["taskService", "scaleService", function(taskService, scaleService){
 	var ctrl = this;
+	
 	taskService.getTasks(function(datas){
 		ctrl.tasks = datas;
+		ctrl.scale = scaleService.getScale();
 	});
 	
 	this.propose = function(task){
@@ -45,8 +52,8 @@ angular.module('Planificator', [])
 			}
 		);
 	};
-})
-.controller('NewTaskCtrl', function(taskService){
+}])
+.controller('NewTaskCtrl', ["taskService", function(taskService){
 	var ctrl = this;
 	ctrl.tasks = [];
 	
@@ -74,7 +81,7 @@ angular.module('Planificator', [])
 			}
 		);
 	}
-})
+}])
 .directive('task', function(){
 	return {
 		restrict: 'EA',
@@ -83,11 +90,47 @@ angular.module('Planificator', [])
 		link : function(scope, element, attrs){
 			var date = $(element).find(".datepicker");
 			date.datepicker();
-			date.datepicker("option", "dateFormat", "dd-mm-yy");
+			date.datepicker("option", "dateFormat", "yy-mm-dd");
 		}
 	};
 })
-.service("taskService", ['$http', function($http){
+.service("scaleService", [function(){
+	var scale = [],
+		tasks = [];
+	this.setTasks = function(tasks){
+		this.tasks = tasks;
+	};
+	this.getScale = function(){
+		return scale;
+	};
+	this.updateScale = function(tasks){
+		var start = "3000", end = "0",
+			tStart, tEnd, subScale = [];
+			
+		scale.length = 0;
+		
+		tasks.forEach(function(task){
+			if(task.start < start) start = task.start;
+			if(task.end > end) end = task.end;
+		});
+		
+		start = STT(start);
+		end = STT(end);
+		
+		tStart = +start;
+		tEnd = +end;
+		while(tStart <= tEnd){
+			subScale.push(new Date(start.getTime()));
+			start.setDate(start.getDate() + 1);
+			tStart = +start;
+		}
+		subScale.forEach(function(item){
+			scale.push(item);
+		});
+		
+	};
+}])
+.service("taskService", ['$http', 'scaleService', function($http, scaleService){
 	var tasks = [];
 	this.getTasks = function(callback){
 		if(tasks.length === 0){
@@ -96,6 +139,7 @@ angular.module('Planificator', [])
 					data.forEach(function(elem){
 						tasks.push($.extend({}, emptyTask, elem));
 					});
+					scaleService.updateScale(tasks);
 					callback(tasks);
 				})
 				.error(function(data, status, headers, config) {
@@ -114,6 +158,7 @@ angular.module('Planificator', [])
 			.success(function(data){
 				task.id = data.id;
 				tasks.push(task);
+				scaleService.updateScale(tasks);
 				success(task);
 			})
 			.error(function(){
@@ -124,6 +169,7 @@ angular.module('Planificator', [])
 	this.editTask = function(task, success, error){
 		$http.put("api/task.php?id="+task.id, task)
 			.success(function(data){
+				scaleService.updateScale(tasks);
 				success(task);
 			})
 			.error(function(){
@@ -140,6 +186,8 @@ angular.module('Planificator', [])
 						break;
 					}
 				}
+				scaleService.updateScale(tasks);
+				
 				success();
 			})
 			.error(function(data){

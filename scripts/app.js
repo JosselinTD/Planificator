@@ -12,10 +12,15 @@ var	emptyTask = {
 
 function STT(date){
 	var split = date.split("-");
-	return new Date(split[0], split[1], split[2]);
+	return new Date(split[0], (parseInt(split[1])-1), split[2]);
 }
 	
 angular.module('Planificator', [])
+.filter('dts', function(){
+	return function(input){
+		return input.getFullYear()+" - "+(input.getMonth()+1)+" - "+input.getDate();
+	};
+})
 .controller('RunningTaskCtrl', ["taskService", "scaleService", function(taskService, scaleService){
 	var ctrl = this;
 	
@@ -24,7 +29,15 @@ angular.module('Planificator', [])
 		ctrl.scale = scaleService.getScale();
 	});
 	
-	this.propose = function(task){
+	ctrl.raw = function(date){
+		return STT(date);
+	};
+	
+	ctrl.dismiss = function(task){
+		task.editting = false;
+	};
+	
+	ctrl.propose = function(task){
 		task.editting = false;
 		task.error = false;
 		task.sync = true;
@@ -41,7 +54,7 @@ angular.module('Planificator', [])
 		);
 	};
 	
-	this.delete = function(task){
+	ctrl.delete = function(task){
 		task.sync = true;
 		taskService.deleteTask(
 			task,
@@ -57,11 +70,25 @@ angular.module('Planificator', [])
 	var ctrl = this;
 	ctrl.tasks = [];
 	
-	this.addTask = function(){
+	ctrl.addTask = function(){
 		ctrl.tasks.push($.extend({}, emptyTask, {editting:true}));
 	};
 	
-	this.propose = function(task){
+	ctrl.dismiss = function(task){
+		task.editting = false;
+	};
+	
+	ctrl.delete = function(task){
+		task.editting = false;
+		for(var i = 0, j = ctrl.tasks.length; i<j; i++){
+			if(ctrl.tasks[i] === task){
+				ctrl.tasks.splice(i, 1);
+				break;
+			}
+		}
+	};
+	
+	ctrl.propose = function(task){
 		task.editting = false;
 		task.sync = true;
 		taskService.addTask(
@@ -85,7 +112,7 @@ angular.module('Planificator', [])
 .directive('task', function(){
 	return {
 		restrict: 'EA',
-		replace:'true',
+		replace:true,
 		templateUrl: '/Planificator/directives/task/task.html',
 		link : function(scope, element, attrs){
 			var date = $(element).find(".datepicker");
@@ -116,6 +143,8 @@ angular.module('Planificator', [])
 		
 		start = STT(start);
 		end = STT(end);
+		
+		if(start < new Date) start = new Date();
 		
 		tStart = +start;
 		tEnd = +end;

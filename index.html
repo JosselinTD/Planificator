@@ -12,11 +12,19 @@
 			<section id="scale">
 				<header>Tâches<br/><button>Semaines</button><button>Mois</button></header>
 				<article>
-					<div class="date" ng-repeat="day in ctrl.scale">{{ day }}</div>
+					<table>
+						<tr>
+							<th>Tâches</th>
+							<th class="date" ng-repeat="day in ctrl.scale">{{ day | dts }}</th>
+						</tr>
+						<tr ng-repeat='task in ctrl.tasks'>
+							<td><task></task></td>
+							<td ng-repeat="day in ctrl.scale" ng-class="{'in':(day >= ctrl.raw(task.start) && day <= ctrl.raw(task.end))}">
+							</td>
+						</tr>
+					</table>
 				</article>
 			</section>
-			<task class="task" ng-repeat='task in ctrl.tasks'>
-			</task>
 		</section>
 		<section id="newTasks" ng-controller="NewTaskCtrl as ctrl">
 			<button ng-click="ctrl.addTask()">Plus</button>

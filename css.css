@@ -9,6 +9,10 @@ body{
 	display:inline-block;
 }
 
+.task.ended header{
+	background-color:green;
+}
+
 .task .edit-task{
 	width:100vw;
 	height:100vh;
@@ -46,4 +50,34 @@ body{
 
 .fa{
 	cursor:pointer;
+}
+
+.in{
+	background-color:rgb(240, 240, 255);
+}
+
+#scale > article > table{
+	border-collapse:collapse;
+	border:1px solid black;
+}
+
+#scale > article > table tr{
+	border:1px solid black;
+}
+
+#scale > article > table th{
+	white-space : nowrap;
+	padding:3px;
+	border:1px solid black
+}
+
+#scale > article > table td{
+	border-left:1px solid rgb(240, 240, 255);
+	border-right:1px solid rgb(240, 240, 255);
+	
+}
+
+#scale > article > table tr td:nth-child(1){
+	border-left:1px solid black;
+	border-right:1px solid black;
 }

@@ -1,4 +1,4 @@
-<div class="task">
+<div class="task" ng-class="{'ended':(ctrl.raw(task.end) < ctrl.scale[0])}">
 	<header>
 		<h1>{{ task.title }}</h1>
 		<menu>
@@ -17,6 +17,7 @@
 			<textarea ng-model="task.comment"></textarea><br/>
 			Tous les <input type="number" ng-model="task.repeat"/> jours.<br/>
 			<span class="fa fa-check submit" ng-click="ctrl.propose(task)"></span>
+			<span class="fa fa-remove submit" ng-click="ctrl.dismiss(task)"></span>
 		</form>
 	</section>
 </div>
